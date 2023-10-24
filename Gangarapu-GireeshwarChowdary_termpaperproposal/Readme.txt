@@ -1,0 +1,5 @@
+Title: Visual comparison in Internet and web systems
+
+Abstract:Users are frequently assaulted with an abundance of information on the internet. Visual comparison techniques display facts in a systematic manner, allowing users to efficiently evaluate possibilities. Users may immediately discover differences and similarities among options using techniques such as side-by-side comparisons, interactive sliders, and heatmaps, which speed up their decision-making process. Furthermore, visual comparison techniques play an important role in increasing user engagement. Web systems may grab and hold user attention by utilizing compelling visual features. Infographics, interactive charts, and visual overlays help to create a more immersive and memorable user experience, which leads to higher user satisfaction and longer interaction with web content. This term paper involves detailed information on the visual comparison techniques to compare different models, such as side-by-side comparisons, charts, or interactive graphics.
+
+

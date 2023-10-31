@@ -1,0 +1,141 @@
+<body>
+    <header>
+        <h1>Please enter your details!</h1>
+    </header>
+    <p>&nbsp;</p>
+    
+<form action="details.php" method="post">
+<label for="firstname">First Name:</label>
+<input type="text" id="firstname" name="firstname"><br><br>
+
+<label for="lastname">Last Name:</label>
+<input type="text" id="lastname" name="lastname"><br><br>
+
+<label for="email">Email Id:</label>
+<input type="email" id="email" name="email"><br><br>
+
+<label for="gender">Gender:</label>
+<input type="radio" id="male" name="gender" value="male">
+<label for="male">Male</label>
+<input type="radio" id="female" name="gender" value="female">
+<label for="female">Female</label>
+<input type="radio" id="other" name="gender" value="other">
+<label for="other">Do not wish to disclose</label><br><br>
+
+<label for="currentlocation">Current Location:</label>
+<input type="text" id="currentlocation" name="currentlocation"><br><br>
+
+<label for="cityofbirth">City of birth:</label>
+<input type="text" id="cityofbirth" name="cityofbirth"><br><br>
+
+<label for="dreamdestination">Dream destination:</label>
+<input type="text" id="dreamdestination" name="dreamdestination"><br><br>
+
+
+
+<p>&nbsp;</p>
+   <header>
+    <h1>Additional Information</h1>
+</header>
+
+<p>&nbsp;</p>
+
+<label for="">Things you Love!:</label>
+<input type="text" id="interests" name="interests"><br><br>
+<label for="fileupload">Upload File:</label>
+    <input type="file" id="fileupload" name="fileupload"><br><br>
+
+
+<input type="submit" value="submit">
+
+</form>
+</div>
+   
+<button onclick="redirectToHomepage()" class="top-right">Home Page</button>
+
+<script>
+// JavaScript function to redirect to the user details page
+function redirectToHomepage() {
+window.location.href = "index(S).html";
+}
+</script>
+
+
+</div>
+
+<style>
+body {
+text-align: center;   
+background-color:rgb(64, 125, 178);
+font-family: Arial, sans-serif; 
+margin: 0;
+padding: 0;
+}
+
+header {
+ 
+color: #161515;
+text-align: center;
+
+}
+
+header h1 {
+margin: 0;
+}
+
+header p {
+margin: 0;
+}
+
+.image-text-container {
+display: flex;
+align-items: center;
+}
+
+.image {
+margin-right: 10px;
+}
+
+.user-info-form label,
+.user-info-form input {
+display: block;
+margin-bottom: 10px;
+}
+
+.user-info-form input {
+width: 100%;
+padding: 8px;
+font-size: 10px;
+}
+
+.user-info-form input[type="radio"] {
+display: inline;
+margin-right: 15px;
+}
+
+.user-info-form input[type="submit"] {
+background-color: #333;
+color: #fff;
+border: none;
+padding: 10px 20px;
+font-size: 16px;
+cursor: pointer;
+}
+
+
+.user-info-form input[type="submit"]:hover {
+background-color: #efebeb;
+}
+.top-right {
+        position: absolute;
+        top: 10px; 
+        right: 10px; 
+    }
+
+
+
+</style>
+
+</body>
+
+</html>

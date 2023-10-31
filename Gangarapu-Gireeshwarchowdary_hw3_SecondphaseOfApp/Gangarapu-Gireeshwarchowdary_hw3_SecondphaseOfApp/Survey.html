@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:rgb(64, 125, 178);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin:  auto;
+            background-color: #f2f1eaf1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+        }
+        label, input, textarea {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .top-right {
+        position: absolute;
+        top: 10px; 
+        right: 10px; 
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Feedback Form</h1>
+        <form action="javascript:void(0);" onsubmit="ShowHelloMessage()">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="rating">How do you rate this website out of 10 (1-10):</label>
+            <input type="number" id="rating" name="rating" min="1" max="10" required>
+
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" rows="4" required></textarea>
+
+            <input type="submit" value="Submit Feedback">
+        </form>
+    </div>
+   
+    <button onclick="redirectToHomepage()" class="top-right">Home Page</button>
+    
+    <script>
+    // JavaScript function to redirect to the user details page
+    function redirectToHomepage() {
+    window.location.href = "index(S).html";
+    }
+    </script>
+        <div id="hellomessage"></div>
+    </div>
+    <script>
+        function ShowHelloMessage() {
+            var name = document.getElementById("name");
+            document.getElementById("hellomessage").innerHTML = "Hello, " + name.value + ". Thanks for your feedback";
+        }
+    </script>
+</body>
+</html>

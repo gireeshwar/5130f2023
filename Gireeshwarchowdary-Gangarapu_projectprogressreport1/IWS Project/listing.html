@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Listings - Car Lease Hub</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .car-listing {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .car-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .car-details {
+            padding: 10px;
+        }
+
+        .car-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .car-price {
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        .car-description {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Car Listings</h1>
+    </header>
+
+    <div class="container">
+        <div class="car-listing">
+            <img class="car-image" src="car1.jpg" alt="Car Image">
+            <div class="car-details">
+                <h2 class="car-title">2023 Honda Accord LX</h2>
+                <p class="car-price">$299/month</p>
+                <p class="car-description">A stylish and fuel-efficient sedan with advanced features.</p>
+                <a class="button" href="accord_details.html">View Details</a>
+            </div>
+        </div>
+
+        <div class="car-listing">
+            <img class="car-image" src="car2.jpg" alt="Car Image">
+            <div class="car-details">
+                <h2 class="car-title">2023 Toyota Camry SE</h2>
+                <p class="car-price">$319/month</p>
+                <p class="car-description">Reliable and comfortable midsize sedan with modern technology.</p>
+                <a class="button" href="camry_details.html">View Details</a>
+            </div>
+        </div>
+
+        <!-- Add more car listings as needed -->
+
+    </div>
+</body>
+</html>

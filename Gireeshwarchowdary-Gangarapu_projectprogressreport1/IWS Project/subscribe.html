@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscribe</title>
+    <link rel="stylesheet" href="new.css">
+</head>
+<body>
+<div id="app">
+    <p class="title">User form</p>
+    <a href="browse.html">Click here to Browse</a>
+    <form class="form" @submit.prevent="submitForm">
+        <p class="title">Subscription</p>
+        <p class="message">Subscribe for weekly recommendations.</p>
+        <label>
+            <input class="input" type="text" required v-model="formData.name">
+            <span>Name</span>
+        </label>
+        <label>
+            <input class="input" type="email" required v-model="formData.email">
+            <span>Email</span>
+        </label>
+        <button type="submit" class="submit">Submit</button>
+        <p class="subscribe">Already did? <a href="home.html">Click here for Home</a></p>
+    </form>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            formData: {
+                name: '',
+                email: '',
+            }
+        },
+        methods: {
+            submitForm() {
+                alert('Form submitted!');
+            }
+        }
+    });
+</script>
+</body>
+</html>

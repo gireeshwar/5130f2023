@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental Inquiry Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Car Rental Inquiry Form</h1>
+    <div>
+        <a href="home.html">Home</a>
+        <a href="guidance.html">Personalized Guidance</a>
+        <a href="browse.html">Browse</a>
+        <a href="aboutus.html">About Us</a>
+    </div>
+    <form action="submit_form.php" method="post">
+        <label for="pickup_date">Pick-up Date and Time:</label>
+        <input type="datetime-local" id="pickup_date" name="pickup_date" required><br><br>
+
+        <label for="dropoff_date">Drop-off Date and Time:</label>
+        <input type="datetime-local" id="dropoff_date" name="dropoff_date" required><br><br>
+
+        <label for="expected_mileage">Expected Mileage (in miles per gallon):</label>
+        <input type="number" id="expected_mileage" name="expected_mileage" required><br><br>
+
+
+        <label for="car_type">Type of Car:</label>
+        <select id="car_type" name="car_type" required>
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
+            <option value="convertible">Convertible</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+
+        <label for="passengers">Number of Passengers:</label>
+        <input type="number" id="passengers" name="passengers" required><br><br>
+
+        <label for="transmission">Transmission Preference:</label>
+        <input type="radio" id="automatic" name="transmission" value="automatic" required>
+        <label for="automatic">Automatic</label>
+        <input type="radio" id="manual" name="transmission" value="manual" required>
+        <label for="manual">Manual</label><br><br>
+
+        <label>Additional Features:</label><br>
+        <input type="checkbox" id="gps" name="features" value="gps">
+        <label for="gps">GPS</label>
+        <input type="checkbox" id="child_seat" name="features" value="child_seat">
+        <label for="child_seat">Child Seat</label>
+        <!-- Add more features as needed -->
+        <br><br>
+
+        <label for="driver_name">Driver's Name:</label>
+        <input type="text" id="driver_name" name="driver_name" required><br><br>
+
+        <label for="price_range">Expected Price Range:</label>
+        <input type="text" id="price_range" name="price_range" required><br><br>
+
+        <label>Additional Services:</label><br>
+        <input type="checkbox" id="insurance" name="services" value="insurance">
+        <label for="insurance">Insurance</label>
+        <input type="checkbox" id="additional_driver" name="services" value="additional_driver">
+        <label for="additional_driver">Additional Driver</label>
+        <!-- Add more services as needed -->
+        <br><br>
+
+        <label for="payment_method">Payment Method:</label>
+        <select id="payment_method" name="payment_method" required>
+            <option value="credit_card">Credit Card</option>
+            <option value="debit_card">Debit Card</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+
+        <label for="card_details">Card Details:</label>
+        <input type="text" id="card_details" name="card_details" required><br><br>
+
+        <input type="checkbox" id="terms_conditions" name="terms_conditions" required>
+        <label for="terms_conditions">I agree to the terms and conditions</label><br><br>
+
+        <label for="special_requests">Special Requests:</label><br>
+        <textarea id="special_requests" name="special_requests" rows="4" cols="50"></textarea><br><br>
+
+        <input type="submit" value="Submit Inquiry">
+    </form>
+</body>
+</html>

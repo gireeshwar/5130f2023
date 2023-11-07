@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validation Form</title>
+<link rel="stylesheet" href="style.css">
+<script src="test.js" defer></script>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Input Validation Form</h2>
+        <form id="validationForm" class="validation-form">
+            <div class="form-field">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+                <div class="feedback" id="emailFeedback"></div>
+            </div>
+
+            <div class="form-field">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" required>
+                <div class="feedback" id="phoneFeedback"></div>
+            </div>
+
+            <div class="form-field">
+                <label for="url">Web Page URL:</label>
+                <input type="text" id="url" name="url" required>
+                <div class="feedback" id="urlFeedback"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+            <button type="reset" class="reset-btn">Cancel</button>
+        </form>
+    </div>
+</body>
+</html>

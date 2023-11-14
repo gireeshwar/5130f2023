@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscribe</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="new.css">
+</head>
+<body>
+<div id="app">
+    <p class="title">User form</p>
+    <a href="browse.html">Click here to Browse</a>
+    <form class="form" @submit.prevent="submitForm">
+        <p class="title">Subscription</p>
+        <p class="message">Subscribe for weekly recommendations.</p>
+        <label>
+            <input class="input" type="text" required v-model="formData.name">
+            <span>Name</span>
+        </label>
+        <label>
+            <input class="input" type="email" required v-model="formData.email">
+            <span>Email</span>
+        </label>
+        <button id="submitBtn" class="submit">Submit</button>
+        <p class="subscribe">Already did? <a href="home.html">Click here for Home</a></p>
+    </form>
+</div>
+
+<script>
+    const config = {
+        apiKey: "AIzaSyAMX4bZwT4JpwnVK28hNfWOukcjalXZzUA",
+        authDomain: "iws1-4be46.firebaseapp.com",
+        databaseURL: "https://iws1-4be46-default-rtdb.firebaseio.com",
+        projectId: "iws1-4be46",
+        storageBucket: "iws1-4be46.appspot.com",
+        messagingSenderId: "245789471783",
+        appId: "1:245789471783:web:a180927220201b036aca02"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(config);
+
+    const db = firebase.firestore();
+    new Vue({
+        el: '#app',
+        data: {
+            formData: {
+                name: '',
+                email: '',
+            }
+        },
+        methods: {
+            submitForm() {
+                document.getElementById("submitBtn").disabled = true;
+                db.collection("subscribedUsers").add(this.formData)
+                    .then(function (docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                        alert("You have successfully subscribed!");
+                        window.location.href = "home.html";
+                        this.resetForm();
+                    })
+                    .catch(function (error) {
+                        console.error("Error adding document: ", error);
+                    });
+            },
+            resetForm(){
+                document.getElementById("submitBtn").disabled = false;
+                this.formData.name = '';
+                this.formData.email = '';
+            }
+        }
+    });
+</script>
+</body>
+</html>

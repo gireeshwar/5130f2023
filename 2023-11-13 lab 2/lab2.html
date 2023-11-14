@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Information Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="app">
+    <h1>User Authentication form</h1>
+    <div v-if="!authUser">
+        <div v-if="showRegisterForm">
+            <form class="form" @submit.prevent="submitForm">
+                <p class="title">Register</p>
+                <p class="message">Signup now and get full access</p>
+                <label>
+                    <span>Email</span>
+                    <input id="email" class="input" type="email" required v-model="formData.email">
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input id="password" class="input" type="password" required v-model="formData.password">
+                </label>
+                <button class="submit">Submit</button>
+                <p>Already have an account? </p>
+                <button @click="showRegisterForm = false">Sign In</button>
+            </form>
+        </div>
+        <div v-else>
+            <form class="form" @submit.prevent="signIn">
+                <p class="title">Login</p>
+                <p class="message">Login to your account</p>
+                <label>
+                    <span>Email</span>
+                    <input class="input" type="email" required v-model="formData.email">
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input class="input" type="password" required v-model="formData.password">
+                </label>
+                <button class="submit">Submit</button>
+                <p>Don't have an account? </p>
+                <button @click="showRegisterForm = true">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <div v-else>
+        <div v-if="authUser.emailVerified">
+            <p class="message">You are logged in as {{authUser.email}}</p>
+            <p class="message">Last Login: {{lastLogin}}</p>
+            <button class="button" @click="signOut">Sign out</button>
+            <button class="button" @click="showUserInfo">Show User Info</button>
+
+            <div id="userInfoModal" class="modal">
+                <div class="form">
+                    <span class="close" @click="closeUserInfoModal">&times;</span>
+                    <p>User Information</p>
+                    <p>Last Login: {{lastLogin}}</p>
+                    <p>Location: {{userLocation}}</p>
+                    <p>Weather: {{weatherInfo}}</p>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <p class="message">Please verify your email to proceed.</p>
+            <p class="message">Verification link sent to email address</p>
+            <button class="button" @click="sendVerificationEmail">Resend Verification Email</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const config = {
+        apiKey: "AIzaSyAMX4bZwT4JpwnVK28hNfWOukcjalXZzUA",
+        authDomain: "iws1-4be46.firebaseapp.com",
+        databaseURL: "https://iws1-4be46-default-rtdb.firebaseio.com",
+        projectId: "iws1-4be46",
+        storageBucket: "iws1-4be46.appspot.com",
+        messagingSenderId: "245789471783",
+        appId: "1:245789471783:web:a180927220201b036aca02"
+    };
+
+    firebase.initializeApp(config);
+
+    new Vue({
+        el: '#app',
+        data: {
+            authUser: null,
+            formData: {
+                email: '',
+                password: '',
+            },
+            showRegisterForm: true,
+            lastLogin: '',
+            userLocation: '',
+            weatherInfo: '',
+            countryLanguage: '',
+            countryCurrency: '',
+        },
+        methods: {
+            submitForm: function () {
+                return firebase.auth().createUserWithEmailAndPassword(this.formData.email, this.formData.password)
+                    .then(() => {
+                        this.sendVerificationEmail();
+                    })
+                    .catch((error) => {
+                        console.error('Registration error:', error);
+                    });
+            },
+            signIn: function () {
+                return firebase.auth().signInWithEmailAndPassword(this.formData.email, this.formData.password);
+            },
+            signOut: function () {
+                firebase.auth().signOut().then(() => {
+                    this.authUser = null;
+                }).catch((error) => {
+                    console.error('Sign-out error:', error);
+                });
+            },
+            sendVerificationEmail: function () {
+                const user = firebase.auth().currentUser;
+
+                user.sendEmailVerification().then(() => {
+                    console.log('Verification email sent');
+                }).catch((error) => {
+                    console.error('Error sending verification email:', error);
+                });
+            },
+            showUserInfo: function () {
+                this.lastLogin = new Date(firebase.auth().currentUser.metadata.lastSignInTime).toLocaleString();
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const { latitude, longitude } = position.coords;
+                            this.userLocation = `${latitude}, ${longitude}`;
+
+                            // Call fetchWeatherInfo only after getting the location
+                            this.fetchWeatherInfo(this.userLocation);
+                        },
+                        (error) => {
+                            console.error('Error getting user location:', error);
+                            this.userLocation = 'Location not available';
+                        }
+                    );
+                } else {
+                    console.error('Geolocation is not supported by this browser.');
+                    this.userLocation = 'Location not available';
+                }
+
+                const modal = document.getElementById('userInfoModal');
+                modal.style.display = 'block';
+            },
+
+
+
+            fetchWeatherInfo: function (location) {
+                const apiKey = '323f5dcbf6574f4498ffb1235b70669d';
+                const apiUrl = `https://api.weatherbit.io/v2.0/current?lat=${location.split(',')[0]}&lon=${location.split(',')[1]}&key=${apiKey}`;
+
+                // Make an AJAX request to Weatherbit API
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    success: (response) => {
+                        if (response && response.data && response.data.length > 0) {
+                            const weatherData = response.data[0];
+                            this.weatherInfo = `${weatherData.weather.description}, ${weatherData.temp}°C`;
+                        } else {
+                            console.error('Invalid weather response:', response);
+                            this.weatherInfo = 'Weather information not available';
+                        }
+                    },
+                    error: (error) => {
+                        console.error('Error fetching weather information:', error);
+                        this.weatherInfo = 'Failed to fetch weather information';
+                    }
+                });
+            },
+
+
+            closeUserInfoModal: function () {
+                const modal = document.getElementById('userInfoModal');
+                modal.style.display = 'none';
+            },
+        },
+        created: function () {
+            firebase.auth().onAuthStateChanged((user) => {
+                this.authUser = user;
+            }, (error) => {
+                console.log(error);
+            });
+        }
+    });
+</script>
+</body>
+</html>

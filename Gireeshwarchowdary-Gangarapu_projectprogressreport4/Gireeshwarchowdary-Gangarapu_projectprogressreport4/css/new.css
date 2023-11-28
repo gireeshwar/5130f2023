@@ -1,0 +1,490 @@
+body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    background-color: #cccccc;
+    font-family: "Times New Roman", Times, serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+}
+h2 {
+    text-align: center;
+    font-size: 40px;
+    color: yellowgreen;
+    font-family: "Times New Roman", Times, serif;
+}
+h4{
+    text-align: center;
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+
+li, ul {
+    margin: 5px;
+    padding: 5px;
+    list-style: none;
+    font-family: "Times New Roman", Times, serif;
+}
+
+a {
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+}
+
+p {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+}
+
+/* Home page------------------------------------------------------------------- */
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    position: relative;
+    top: 400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    border-radius: 10px;
+}
+
+.cards .brown {
+    background-color: saddlebrown;
+}
+
+.cards .grey {
+    background-color: grey;
+}
+
+.cards .black {
+    background-color: black;
+}
+.cards .blue {
+    background: none;
+}
+
+.cards .card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: 400ms;
+    padding: 20px;
+}
+
+.cards .card p.tip {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.cards .card p.second-text {
+    font-size: 0.8em;
+}
+
+.cards .card:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.cards:hover > .card:not(:hover) {
+    filter: blur(10px);
+    transform: scale(0.9, 0.9);
+}
+.form-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-container.show {
+    display: flex;
+    position: fixed; /* Add this line */
+}
+
+.form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Adjust the position of remaining elements when the form is visible */
+.cards.move-left {
+    transform: translateX(250px); /* Adjust the value based on your layout */
+    transition: transform 0.3s ease-in-out;
+}
+
+/*...........................................................................*/
+.containersocial {
+    display: flex;
+    gap: 10px;
+    width: 75%; /* Adjusting the width of the container */
+    margin: 20px auto; /* Centering the container */
+}
+
+.cardsocial {
+    height: 100px; /* Adjusting the height of the social card */
+    flex: 1;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: grey;
+}
+
+.cardsocial:hover {
+    flex: 2;
+    background-color: #b8b8b8;
+}
+
+/*navigation menu8-------------------------------------------------------------------*/
+#checkbox {
+    display: none;
+}
+
+.toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition-duration: .5s;
+    z-index: 2; /* Add a higher z-index */
+}
+
+.navigation-menu {
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    position: fixed;
+    top: 10px;
+    right: -100%; /* Move the menu off the screen initially */
+    width: 95%;
+    height: 10%;
+    text-align: center;
+    transition: left 0.5s; /* Apply a transition to smoothly show/hide the menu */
+    z-index: 1; /* Add a lower z-index */
+}
+
+/* Style the list items in the navigation menu */
+.navigation-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 10%;
+}
+
+.navigation-menu li {
+    margin: 20px 0;
+}
+
+/* Show the navigation menu when the checkbox is checked */
+#checkbox:checked + .toggle ~ .navigation-menu {
+    right: 0; /* Slide the menu in when the checkbox is checked */
+    animation: text-focus-in 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+@keyframes text-focus-in {
+    0% {
+        filter: blur(12px);
+        opacity: 0;
+    }
+    100% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+.bars {
+    width: 100%;
+    height: 4px;
+    background-color: rgb(176, 92, 255);
+    border-radius: 4px;
+    transition-duration: .5s;
+    z-index: 2; /* Add a higher z-index */
+}
+
+#bar2 {
+    transition-duration: .8s;
+}
+
+#bar1, #bar3 {
+    width: 70%;
+}
+
+#checkbox:checked + .toggle .bars {
+    position: absolute;
+    transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar2 {
+    transform: scaleX(0);
+    transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar1 {
+    width: 100%;
+    transform: rotate(45deg);
+    transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar3 {
+    width: 100%;
+    transform: rotate(-45deg);
+    transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle {
+    transition-duration: .5s;
+    transform: rotate(180deg);
+}
+
+/*subscribe page-------------------------------------------------------------------*/
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+    padding: 40px;
+    border-radius: 20px;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 8px solid #333;
+    position: absolute;
+    left: 33%;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    color: #00bfff;
+}
+
+.title::before {
+    width: 18px;
+    height: 18px;
+}
+
+.title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+}
+
+.title::before,
+.title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 2px;
+    background-color: #00bfff;
+}
+
+.message,
+.form label {
+    position: relative;
+}
+.message {
+    font-size: 1.0em;
+    font-weight: 600;
+    padding: 5px 0;
+    color: deepskyblue;
+}
+
+.form label .input {
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+    padding: 20px 05px 05px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+}
+
+.form label .input + span {
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    left: 10px;
+    top: 0;
+    font-size: 0.9em;
+    cursor: text;
+    transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown + span {
+    top: 12.5px;
+    font-size: 0.9em;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+    color: #00bfff;
+    top: 2px;
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+.input {
+    font-size: medium;
+}
+
+.submit {
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transform: scale(1);
+    background-color: #00bfff;
+}
+
+.submit:hover {
+    background-color: #00bfff96;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+.footer-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.header-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+/*button design-------------------------------------------------------------------*/
+
+.center-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    margin: 0 10px; /* Adjust the margin as needed */
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transform: scale(1);
+    background-color: #00bfff;
+}
+.button:hover {
+    background-color: #00bfff96;
+}
+
+
+/*...........................................................................*/
+.tracking-in-contract-bck {
+    position: relative; /* Ensure z-index works properly */
+    -webkit-animation: tracking-in-contract-bck 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+    animation: tracking-in-contract-bck 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1; /* Ensure the hover effect is visible above other elements */
+}
+
+.tracking-in-contract-bck:hover {
+    color: #00bfff;
+    font-weight: bolder;
+    transform: scale(1.05); /* Scale up by 5% on hover */
+}
+
+@-webkit-keyframes tracking-in-contract-bck {
+    0% {
+        letter-spacing: 1em;
+        -webkit-transform: translateZ(400px);
+        transform: translateZ(400px);
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.6;
+    }
+    100% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1;
+    }
+}
+
+@keyframes tracking-in-contract-bck {
+    0% {
+        letter-spacing: 1em;
+        -webkit-transform: translateZ(400px);
+        transform: translateZ(400px);
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.6;
+    }
+    100% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1;
+    }
+}

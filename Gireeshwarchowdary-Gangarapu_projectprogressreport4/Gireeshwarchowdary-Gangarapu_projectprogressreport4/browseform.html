@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rough Browse</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/radiobuttons.css">
+</head>
+<style>
+    body {
+        background-image: url("drift.jpg");
+    }
+</style>
+<body>
+<h1>Matching Car Models</h1>
+<div>
+    <input type="checkbox" id="checkbox">
+    <label for="checkbox" class="toggle">
+        <div class="bars" id="bar1"></div>
+        <div class="bars" id="bar2"></div>
+        <div class="bars" id="bar3"></div>
+    </label>
+    <label class="navigation-menu">
+        <nav>
+            <ul>
+                <li><a href="guidance2.html">Personalized Guidance</a></li>
+                <li><a href="browse.html">Browse All Cars</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </label>
+</div>
+<!-- Inside the <ul> loop where you display cars -->
+<div id="app">
+    <h1>Matching Car Models</h1>
+    <ul>
+        <li v-for="car in matchedCars" :key="car.model">
+            <img :src="car.imageURL" alt="Car Image" style="max-width: 100px; max-height: 100px;">
+            {{ car.model }} - Size: {{ car.carsize }} Seater | Expected Mileage: {{ car.expectedmileage }} MPG
+            | Lease Cost: ${{ calculateLeaseCost(car, formData) }} | Loan Cost: ${{ calculateLoanCost(car, formData) }}
+            | Price: ${{ car.cost }} | Transmission: {{ car.transmission }} | Additional Features: {{ car.features }}
+        </li>
+    </ul>
+</div>
+
+
+<script>
+    const config = {
+        apiKey: "AIzaSyAMX4bZwT4JpwnVK28hNfWOukcjalXZzUA",
+        authDomain: "iws1-4be46.firebaseapp.com",
+        projectId: "iws1-4be46",
+        storageBucket: "iws1-4be46.appspot.com",
+        messagingSenderId: "245789471783",
+        appId: "1:245789471783:web:a180927220201b036aca02"
+    };
+    firebase.initializeApp(config);
+
+    const db = firebase.firestore();
+
+    new Vue({
+        el: '#app',
+        data: {
+            matchedCars: [], // Make sure matchedCars is defined in the data section
+            formData: {
+                Cartype: '',
+                Carsize: '',
+                transmission: '',
+                PreferredCompany: '',
+                Expectedmileage: 0,
+                selectedCreditScore: '',
+                pickupDate: new Date(),
+                dropoffDate: new Date(),
+                features: [],
+                selectedServices: []
+            }
+        },
+        created() {
+            this.loadMatchingCars();
+        },
+        methods: {
+            loadMatchingCars() {
+                const queryString = window.location.search.substring(1);
+                const params = new URLSearchParams(queryString);
+
+                if (
+                    params.has("Cartype") &&
+                    params.has("Carsize") &&
+                    params.has("transmission") &&
+                    params.has("Expectedmileage") &&
+                    params.has("selectedCreditScore") &&
+                    params.has("pickupDate") &&
+                    params.has("dropoffDate")
+                ) {
+                    this.formData = {
+                        Cartype: params.get("Cartype"),
+                        Carsize: params.get("Carsize"),
+                        transmission: params.get("transmission"),
+                        PreferredCompany: params.get("PreferredCompany"),
+                        Expectedmileage: Number(params.get("Expectedmileage")),
+                        selectedCreditScore: params.get("selectedCreditScore"),
+                        pickupDate: new Date(params.get("pickupDate")),
+                        dropoffDate: new Date(params.get("dropoffDate")),
+                        features: params.getAll("features[]"),
+                        selectedServices: params.getAll("selectedServices[]")
+                    };
+
+                    let query = db.collection('carCost')
+                        .where('cartype', '==', this.formData.Cartype)
+                        .where('carsize', '==', this.formData.Carsize)
+                        .where('transmission', '==', this.formData.transmission)
+                        .where('expectedmileage', '>=', this.formData.Expectedmileage)
+                        .where('preferredCompany', '==', this.formData.PreferredCompany);
+
+                    // Conditionally add filtering criteria for features
+                    if (this.formData.features.length > 0) {
+                        query = query.where('features', 'array-contains-any', this.formData.features);
+                    }
+
+                    // Conditionally add filtering criteria for selected services
+                    if (this.formData.selectedServices.length > 0) {
+                        query = query.where('selectedServices', 'array-contains-any', this.formData.selectedServices);
+                    }
+
+                    query.get()
+                        .then((querySnapshot) => {
+                            const cars = [];
+                            querySnapshot.forEach((doc) => {
+                                const carData = doc.data();
+                                cars.push(carData);
+                            });
+                            this.matchedCars = cars;
+                        })
+                        .catch((error) => {
+                            console.error('Error fetching car data:', error);
+                        });
+                }
+            },
+            calculateLeaseCost(car, formData) {
+                const pickupDate = formData.pickupDate;
+                const dropoffDate = formData.dropoffDate;
+                const durationInHours = (dropoffDate - pickupDate) / (60 * 60 * 1000);
+
+                let leaseCost;
+                switch (car.cartype) {
+                    case 'sedan':
+                        leaseCost = 15 * durationInHours;
+                        break;
+                    case 'suv':
+                        leaseCost = 16 * durationInHours;
+                        break;
+                    case 'convertible':
+                        leaseCost = 17 * durationInHours;
+                        break;
+                    default:
+                        leaseCost = 0;
+                        break;
+                }
+
+                return leaseCost.toFixed(2);
+            },
+            calculateLoanCost(car, formData) {
+                const loanDurationInYears = 3;
+                const interestRates = {
+                    prime: 6.44,
+                    nonprime: 8.99,
+                    subprime: 11.72,
+                    deep_subprime: 14.18
+                };
+
+                const interestRate = interestRates[formData.selectedCreditScore];
+
+                const loanAmount = car.cost;
+                const monthlyInterestRate = interestRate / 100 / 12;
+                const totalPayments = loanDurationInYears * 12;
+                const loanPayment = (monthlyInterestRate * loanAmount) / (1 - Math.pow(1 + monthlyInterestRate, -totalPayments));
+
+                return (loanPayment * totalPayments).toFixed(2);
+            },
+            getSelectedFeatures(features) {
+                return features.filter(feature => this.formData.features.includes(feature)).join(', ');
+            },
+            getSelectedServices(services) {
+                return services.filter(service => this.formData.selectedServices.includes(service)).join(', ');
+            }
+        },
+    });
+</script>
+</body>
+</html>

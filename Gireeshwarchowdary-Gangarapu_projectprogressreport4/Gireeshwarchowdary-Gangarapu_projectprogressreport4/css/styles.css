@@ -1,0 +1,61 @@
+/*home page styles*/
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: roboto, sans-serif;
+}
+
+.home {
+    height: 100vh;
+    position: relative;
+}
+
+
+/* Home Page Styles */
+.home {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+}
+
+.home-content {
+    padding-top: 15px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(45px, 7vw, 130px);
+    line-height: 1.1;
+    color: #fff;
+}
+
+h3 {
+    font-size: clamp(25px, 4vw, 40px);
+    margin-top: 10px;
+}
+
+.button_style {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    flex-direction: row;
+    margin-top: 20px;
+}
+.button_style:hover {
+    background-color: #3e8e41;
+}
+

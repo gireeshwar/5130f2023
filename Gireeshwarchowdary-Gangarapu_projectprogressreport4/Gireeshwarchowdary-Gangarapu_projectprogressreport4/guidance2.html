@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Guidance Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="css/new.css">
+</head>
+<style>
+    body {
+        background-image: url("images/drift.jpg");
+        background-attachment: fixed;
+    }
+
+</style>
+
+<body>
+<div class="header-container">
+    <input type="checkbox" id="checkbox">
+    <label for="checkbox" class="toggle">
+        <div class="bars" id="bar1"></div>
+        <div class="bars" id="bar2"></div>
+        <div class="bars" id="bar3"></div>
+    </label>
+    <label class="navigation-menu">
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="browse.html">Browse All Cars</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="subscribe.html">Subscribe</a></li>
+                <li><a href="Social.html">Social Media</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+    </label>
+</div>
+
+<div id="app">
+
+    <br><br><br><br><
+    <div class="center-buttons-container">
+        <button class="button" id="submitBtn" v-on:click="toggleFormVisibility">Click for New form</button>
+        <button class="button">Previous Session</button>
+    </div>
+    <br><br>
+    <form class="form" @submit.prevent="submitForm" v-if="formVisible">
+        <p class="title">Car Guidance Form</p>
+        <p class="message">Fill out the form below to get personalized guidance on which car to buy or lease</p>
+        <label for="pickup_date">
+            <input style="color: grey"  class="input" type="datetime-local" id="pickup_date" v-model="pickupDate" required>
+            <span>Pick-up Date and Time:(MM/DD/YYYY)</span>
+        </label><br><br>
+
+        <label for="dropoff_date">
+            <input style="color: grey" class="input" type="datetime-local" id="dropoff_date" v-model="dropoffDate" required>
+            <span>Drop-off Date and Time:(MM/DD/YYYY)</span>
+
+        </label><br><br>
+
+        <label for="expected_mileage">
+            <input class="input" type="number" id="expected_mileage" v-model="Expectedmileage" required>
+            <span>Expected Mileage:</span>
+        </label><br><br>
+
+        <label for="car_type">
+            <select class='input' id="car_type" v-model="Cartype" required>
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="convertible">Convertible</option>
+            </select>
+            <span>Car Type:</span>
+        </label>
+
+        <br><br>
+
+        <label for="seater">
+            <select class='input' id="seater" v-model="Carsize" required>
+                <option value="2">2-seater</option>
+                <option value="5">5-seater</option>
+                <option value="6">6-seater</option>
+                <option value="7">7-seater</option>
+            </select>
+            <span>Car Size:</span>
+        </label><br><br>
+
+        <label for="transmission">
+            <select class="input" id="transmission" v-model="transmission" required>
+                <option value="automatic">Automatic</option>
+                <option value="manual">Manual</option>
+            </select>
+            <span>Transmission Preference:</span>
+        </label>
+
+        <br>
+
+        <p class="message">Additional Features:</p>
+        <input class="input" type="checkbox" id="gps" v-model="features" value="gps">
+        <label for="gps">GPS</label>
+        <input class="input" type="checkbox" id="child_seat" v-model="features" value="child_seat">
+        <label for="child_seat">Child Seat</label>
+        <input class="input" type="checkbox" id="DoesNotMatter" v-model="features" value="DoesNotMatter">
+        <label for="DoesNotMatter">Does not matter</label>
+
+
+        <br><br>
+
+        <label for="PreferredCompany">
+            <select class="input" id="PreferredCompany" v-model="PreferredCompany" @change="handleSelectChange" required>
+                <option value="kia">Kia</option>
+                <option value="toyota">Toyota</option>
+                <option value="honda">Honda</option>
+                <option value="hyundai">Hyundai</option>
+                <option value="ford">Ford</option>
+                <option value="chevrolet">Chevrolet</option>
+                <option value="nissan">Nissan</option>
+                <option value="subaru">Subaru</option>
+                <option value="volkswagen">Volkswagen</option>
+                <option value="mazda">Mazda</option>
+                <option value="dodge">Dodge</option>
+                <option value="mercedes-benz">Mercedes-Benz</option>
+                <option value="bmw">BMW</option>
+                <option value="audi">Audi</option>
+                <option value="lexus">Lexus</option>
+                <option value="acura">Acura</option>
+                <option value="other">Other</option>
+            </select>
+            <span>Preferred Company:</span>
+        </label>
+
+        <input class="input" id="OtherCompany" v-model="otherCompany" @blur="updatePreferredCompany" :disabled="PreferredCompany !== 'other'" type="text" placeholder="Enter Other Company">
+        <br>
+
+        <p class="message">Expected Price Range:</p>
+        <input class="input" type="range" id="price_range" v-model="selectedPrice" min="0" :max="maxPrice" required>
+        <span>Min: {{ selectedPriceLow }} | Max: {{ selectedPrice }}</span>
+        <br>
+
+        <p class="message">Additional Services:(Check the box below if you want to know the costs:)</p>
+        <input class="input" type="checkbox" id="insurance" v-model="selectedServices" value="insurance">
+        <label for="insurance">Insurance</label>
+        <input class="input" type="checkbox" id="additional_driver" v-model="selectedServices" value="additional_driver">
+        <label for="additional_driver">Additional Driver</label>
+        <!-- Add more services as needed -->
+        <br>
+
+        <p class="message">Credit Score:</p>
+        <select class="input" id="credit_score" v-model="selectedCreditScore">
+            <option value="prime">Prime: 661-780</option>
+            <option value="nonprime">Nonprime: 601-660</option>
+            <option value="subprime">Subprime: 501-600</option>
+            <option value="deep_subprime">Deep subprime: 300-500</option>
+        </select>
+
+        <label>Average APR:</label>
+        <span v-if="selectedCreditScore === 'prime'">6.44%</span>
+        <span v-if="selectedCreditScore === 'nonprime'">8.99%</span>
+        <span v-if="selectedCreditScore === 'subprime'">11.72%</span>
+        <span v-if="selectedCreditScore === 'deep_subprime'">14.18%</span>
+
+        <p>Selected Credit Score: {{ selectedCreditScore }}</p>
+        <br><br>
+
+        <input class="checkbox" type="checkbox" id="terms_conditions" v-model="terms_conditions" required>
+        <label for="terms_conditions">I agree to the terms and conditions</label><br><br>
+        <button class="submit" id="submitBtn" v-on:click="submitForm">Submit Preferences</button>
+    </form>
+</div>
+
+<script>
+    const config = {
+        apiKey: "AIzaSyAMX4bZwT4JpwnVK28hNfWOukcjalXZzUA",
+        authDomain: "iws1-4be46.firebaseapp.com",
+        projectId: "iws1-4be46",
+        storageBucket: "iws1-4be46.appspot.com",
+        messagingSenderId: "245789471783",
+        appId: "1:245789471783:web:a180927220201b036aca02"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(config);
+
+    const db = firebase.firestore();
+
+    new Vue({
+        el: '#app',
+        data: {
+            formVisible: false,
+            pickupDate: '',
+            dropoffDate: '',
+            Expectedmileage: '',
+            Cartype: '',
+            Carsize: '',
+            transmission: '',
+            features: [],
+            selectedPriceLow: 0,
+            selectedPrice: 50,
+            maxPrice: 100000,
+            PreferredCompany: '',
+            selectedServices: [],
+            selectedCreditScore: '',
+            terms_conditions: false,
+            otherCompany: ''
+        },
+        methods: {
+            async submitForm() {
+                document.getElementById("submitBtn").disabled = true;
+                if (!this.terms_conditions) {
+                    alert('Please agree to the terms and conditions.');
+                    document.getElementById("submitBtn").disabled = false;
+                    return;
+                }
+
+                const formData = {
+                    pickupDate: this.pickupDate,
+                    dropoffDate: this.dropoffDate,
+                    Expectedmileage: this.Expectedmileage,
+                    Cartype: this.Cartype,
+                    Carsize: this.Carsize,
+                    transmission: this.transmission,
+                    features: this.features,
+                    selectedPriceLow: this.selectedPriceLow,
+                    selectedPrice: this.selectedPrice,
+                    maxPrice: this.maxPrice,
+                    PreferredCompany: this.PreferredCompany.toLowerCase(),
+                    selectedServices: this.selectedServices,
+                    terms_conditions: this.terms_conditions,
+                    selectedCreditScore: this.selectedCreditScore
+                };
+
+                try {
+                    await db.collection('carInquiries').add(formData);
+                    console.log('Form data saved successfully.');
+
+                    const queryString = Object.entries(formData)
+                        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                        .filter(pair => pair !== 'terms_conditions=true')
+                        .join('&');
+
+                    this.resetForm();
+                    window.location.href = `browseform.html?${queryString}`;
+                } catch (error) {
+                    console.error('Error adding form data: ', error);
+                }
+            },
+            handleSelectChange() {
+                // If a pre-defined option is selected, keep the otherCompany value intact
+                if (this.PreferredCompany !== 'other') {
+                    this.otherCompany = '';
+                }
+            },
+            updatePreferredCompany() {
+                // If "Other" is selected, update PreferredCompany with the otherCompany value
+                if (this.PreferredCompany === 'other') {
+                    this.$nextTick(() => {
+                        this.PreferredCompany = this.otherCompany;
+                    });
+                }
+            },
+            toggleFormVisibility() {
+                this.formVisible = !this.formVisible;
+            },
+
+
+            resetForm() {
+                document.getElementById("submitBtn").disabled = false;
+                this.pickupDate = '';
+                this.dropoffDate = '';
+                this.Expectedmileage = '';
+                this.Cartype = '';
+                this.Carsize = '';
+                this.transmission = '';
+                this.features = [];
+                this.selectedPriceLow = 0;
+                this.selectedPrice = 50;
+                this.maxPrice = 100000;
+                this.PreferredCompany = '';
+                this.selectedServices = [];
+                this.selectedCreditScore = '';
+                this.terms_conditions = false;
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

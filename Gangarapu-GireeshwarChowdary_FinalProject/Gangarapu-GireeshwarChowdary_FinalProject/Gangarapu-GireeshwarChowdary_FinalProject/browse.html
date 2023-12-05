@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse form</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/browse.css">
+    <link rel="stylesheet" href="css/radiobuttons.css">
+</head>
+<style>
+    body {
+        background-image: url("images/aesthetic.jpg");
+    }
+</style>
+<body>
+<div>
+    <input type="checkbox" id="checkbox">
+    <label for="checkbox" class="toggle">
+        <div class="bars" id="bar1"></div>
+        <div class="bars" id="bar2"></div>
+        <div class="bars" id="bar3"></div>
+    </label>
+    <label class="navigation-menu">
+        <nav>
+            <ul>
+                <li><a href="home.html">HOME</a></li>
+                <li><a href="guidance2.html">PERSONALIZED GUIDANCE</a></li>
+                <li><a href="aboutus.html">ABOUT US</a></li>
+                <li><a href="contact.html">CONTACT US</a></li>
+            </ul>
+        </nav>
+    </label>
+</div>
+<h2>ALL CAR MODELS</h2>
+<div id="app">
+    <div class="radio-input">
+        <label>
+            <input v-model="sortOption" type="radio" id="value-1" name="value-radio" value="model">
+            <span>Sort By Model</span>
+        </label>
+        <label>
+            <input v-model="sortOption" type="radio" id="value-2" name="value-radio" value="carsize">
+            <span>Sort By Size</span>
+        </label>
+        <label>
+            <input v-model="sortOption" type="radio" id="value-3" name="value-radio" value="expectedmileage">
+            <span>Sort By Mileage</span>
+        </label>
+        <label>
+            <input v-model="sortOption" type="radio" id="value-4" name="value-radio" value="transmission">
+            <span>Sort By Transmission</span>
+        </label>
+        <span class="selection"></span>
+    </div>
+
+    <div v-if="loadallcars.length > 0">
+        <!-- Group cars by selected sort option -->
+        <div v-for="(cars, key) in groupBy(loadallcars, sortOption)" :key="key" class="size-section">
+            <h2 class="tracking-in-contract-bck">Sorted By {{ capitalize(sortOption) }}: {{ key }}</h2>
+            <div class="matchCarStyle">
+                <div v-for="car in cars" :key="car.model" class="car-item scale-in-center">
+                    <img :src="car.imageURL" alt="Car Image" class="car-image">
+                    <div class="car-details">
+                        <h3>{{ car.model.toUpperCase() }}</h3>
+                        <p><strong>Size:</strong> {{ car.carsize }} Seater</p>
+                        <p><strong>Expected Mileage:</strong> {{ car.expectedmileage }} MPG</p>
+                        <p><strong>Lease Cost:</strong> ${{ calculateLeaseType(car, formData) }}:per day</p>
+                        <p><strong>Select Credit Score for Loan rates:</strong>
+                            <select v-model="formData.selectedCreditScore">
+                                <option value="prime">Prime: 661-780</option>
+                                <option value="nonprime">Nonprime: 601-660</option>
+                                <option value="subprime">Subprime: 501-600</option>
+                                <option value="deep_subprime">Deep subprime: 300-500</option>
+                            </select>
+                        </p>
+                        <p><strong>Loan Cost:</strong> ${{ calculateTotalCost(car, formData) }}</p>
+                        <p><strong>Monthly Payment:</strong> ${{ calculateMonthlyPayment(car, formData) }}</p>
+                        <p><strong>Price:</strong> ${{ car.cost }}</p>
+                        <p><strong>Transmission:</strong> {{ car.transmission }}</p>
+                        <p><strong>Additional Features:</strong> {{ car.features }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-else>
+        <p>No cars available.</p>
+    </div>
+</div>
+
+<script src="js/browseform.js"></script>
+</body>
+</html>

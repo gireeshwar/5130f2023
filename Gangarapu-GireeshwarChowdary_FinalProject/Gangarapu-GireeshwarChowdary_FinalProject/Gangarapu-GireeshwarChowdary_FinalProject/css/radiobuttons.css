@@ -1,0 +1,129 @@
+.radio-inputs {
+    display: flex;
+    border-radius: 0.5rem;
+    background-color: #EEE;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+    padding: 0.75rem;
+    width: 100%;
+    font-size: 14px;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+.radio-inputs .radio {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.radio-inputs .radio input {
+    display: none;
+}
+
+.radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.75rem 20px;
+    color: rgba(51, 65, 85, 1);
+    transition: all .15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+    background-color: #fff;
+    font-weight: 600;
+}
+
+.section {
+    margin-top: 50px; /* Adjust as needed */
+}
+
+/* Add a smooth scroll transition */
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* The container */
+
+.radio-input input {
+    display: none;
+}
+
+.radio-input {
+    --container_width: 95vw; /* Set width to 100% of viewport width */
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #000000;
+    width: var(--container_width);
+    overflow: hidden;
+    border: 1px solid rgba(53, 52, 52, 0.226);
+}
+
+.radio-input label {
+    width: calc(var(--container_width) / 4);
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    font-weight: 600;
+    letter-spacing: -1px;
+    font-size: 18px;
+}
+
+.selection {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: calc(var(--container_width) / 4);
+    z-index: 0;
+    left: 0;
+    top: 0;
+    transition: .15s ease;
+}
+
+/* ... rest of the CSS remains unchanged ... */
+
+
+.radio-input label:has(input:checked) {
+    color: #fff;
+}
+
+.radio-input label:has(input:checked) ~ .selection {
+    background-color: rgb(11 117 223);
+    display: inline-block;
+}
+
+.radio-input label:nth-child(1):has(input:checked) ~ .selection {
+    transform: translateX(calc(var(--container_width) * 0/4));
+}
+
+.radio-input label:nth-child(2):has(input:checked) ~ .selection {
+    transform: translateX(calc(var(--container_width) * 1/4));
+}
+
+.radio-input label:nth-child(3):has(input:checked) ~ .selection {
+    transform: translateX(calc(var(--container_width) * 2/4));
+}
+
+.radio-input label:nth-child(4):has(input:checked) ~ .selection {
+    transform: translateX(calc(var(--container_width) * 3/4));
+}
+
+
+
+
+
+
+
+/* Add more styles for additional boxes as needed */
+

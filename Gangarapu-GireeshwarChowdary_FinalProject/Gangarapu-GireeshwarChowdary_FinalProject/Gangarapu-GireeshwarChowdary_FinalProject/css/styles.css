@@ -1,0 +1,190 @@
+/*home page styles*/
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: roboto, sans-serif;
+}
+
+.home {
+    height: 100vh;
+    position: relative;
+}
+
+
+/* Home Page Styles */
+.home {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+}
+
+.home-content {
+    padding-top: 15px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(45px, 7vw, 130px);
+    line-height: 1.1;
+    color: #fff;
+}
+
+h3 {
+    font-size: clamp(25px, 4vw, 40px);
+    margin-top: 10px;
+}
+
+.button_style {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    flex-direction: row;
+    margin: 20px 2px 4px;
+}
+.button_style:hover {
+    background-color: #3e8e41;
+}
+
+/* Style the container */
+
+
+.sort-options-container {
+    display: inline-block;
+    border: 2px solid deepskyblue;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sort-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.sort-options label {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.sort-options input[type="radio"] {
+    display: none; /* Hide the actual radio buttons */
+}
+
+.sort-options input[type="radio"]:checked + label {
+    background-color: deepskyblue;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Add a margin between detail rows */
+.submissionlist {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 95%;
+}
+
+.submissionlist .table-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    background: darkgrey;
+    border-radius: 8px;
+}
+
+.submissionlist .table-cell {
+    flex: 1 1 calc(33.33% - 10px); /* Adjust the percentage based on the number of cells you want in a row */
+    margin-bottom: 2px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover effect for each cell */
+.submissionlist .table-cell:hover {
+    transform: translateY(-5px);
+}
+/* Style the button with animation */
+.submissionlist .animated-button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Button hover effect */
+.submissionlist .animated-button:hover {
+    background-color: #45a049;
+}
+
+/* Style the heading with animation */
+.submissionlist h2 {
+    color: #00bcd4;
+    font-size: xx-large;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fade-in-up 0.8s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+
+/* Style the detail labels */
+.submissionlist .detail-label {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #555;
+    text-transform: capitalize;
+}
+
+/* Animation keyframes for fade-in-up effect */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation keyframes for box scaling effect */
+@keyframes scale-up {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Animation class for box scaling effect */
+.submissionlist .animated-box {
+    animation: scale-up 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}

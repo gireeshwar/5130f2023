@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "node": "^21.1.0",
+    "vue": "^3.3.8",
+    "vue-router": "^4.0.11",
+    "vuetify": "^0.1.0"
+  }
+}

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Information Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="lab3.css">
+</head>
+<body>
+<div id="app">
+    <h1>User Authentication form</h1>
+    <div v-if="!authUser">
+        <div v-if="showRegisterForm">
+            <form class="form" @submit.prevent="submitForm">
+                <p class="title">Register</p>
+                <p class="message">Signup now and get full access</p>
+                <label>
+                    <span>Email</span>
+                    <input id="email" class="input" type="email" required v-model="formData.email">
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input id="password" class="input" type="password" required v-model="formData.password">
+                    <input type="checkbox" @click="togglePasswordVisibility">
+                    <span>Show Password</span>
+                </label>
+                <button class="submit">Submit</button>
+                <p>Already have an account? </p>
+                <button @click="showRegisterForm = false">Sign In</button>
+            </form>
+        </div>
+        <div v-else>
+            <form class="form" @submit.prevent="signIn">
+                <p class="title">Login</p>
+                <p class="message">Login to your account</p>
+                <label>
+                    <span>Email</span>
+                    <input class="input" type="email" required v-model="formData.email">
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input id="password" class="input" type="password" required v-model="formData.password">
+                    <input type="checkbox" @click="togglePasswordVisibility">
+                    <span>Show Password</span>
+                </label>
+                <button class="submit">Submit</button>
+                <p>Don't have an account? </p>
+                <button @click="showRegisterForm = true">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <div v-else>
+        <div v-if="authUser.emailVerified">
+            <p class="message">You are logged in as {{authUser.email}}</p>
+            <p class="message">Last Login: {{lastLogin}}</p>
+            <button class="button" @click="signOut">Sign out</button>
+            <button class="button" @click="showUserInfoAndCountryInfo">Show User Info</button>
+
+
+            <div v-if="showform" id="userInfoModal" class="modal">
+                <div class="form">
+                    <span class="close" @click="closeUserInfoModal">&times; Close</span>
+                    <p>User Information</p>
+                    <p>Last Login: {{lastLogin}}</p>
+                    <p>Location: {{userLocation}}</p>
+                    <p>Weather: {{weatherInfo}}</p>
+                    <p>Local Language: {{countryLanguage}} </p>
+                    <p>Address: {{address}}</p>
+                    <img :src="mapImageUrl" alt="Static Map">
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <p class="message">Please verify your email to proceed.</p>
+            <p class="message">Verification link sent to email address</p>
+            <button class="button" @click="sendVerificationEmail">Resend Verification Email</button>
+            <button class="button" @click="togglereload">Click here after verification</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getUserIpAddress(callback) {
+        const accessToken = '4013f3df07354a'; // Replace with your actual access token
+        const apiUrl = `https://ipinfo.io/json?token=${accessToken}`;
+
+        $.ajax({
+            url: apiUrl,
+            type: 'GET',
+            dataType: 'json',
+            success: (response) => {
+                const ipAddress = response.ip;
+                callback(ipAddress);
+            },
+            error: (error) => {
+                if (error.status === 429) {
+                    console.error('Rate limit exceeded. Please wait and try again.');
+                } else {
+                    console.error('Error fetching IP information:', error);
+                }
+                callback(null);
+            }
+        });
+    }
+    const config = {
+        apiKey: "AIzaSyAMX4bZwT4JpwnVK28hNfWOukcjalXZzUA",
+        authDomain: "iws1-4be46.firebaseapp.com",
+        databaseURL: "https://iws1-4be46-default-rtdb.firebaseio.com",
+        projectId: "iws1-4be46",
+        storageBucket: "iws1-4be46.appspot.com",
+        messagingSenderId: "245789471783",
+        appId: "1:245789471783:web:a180927220201b036aca02"
+    };
+    firebase.initializeApp(config);
+
+    const accessKey = 'daef069f818e061093314837cc748552';
+
+    new Vue({
+        el: '#app',
+        data: {
+            authUser: null,
+            formData: {
+                email: '',
+                password: '',
+            },
+            showRegisterForm: true,
+            lastLogin: '',
+            userLocation: '',
+            weatherInfo: '',
+            countryLanguage: '',
+            address: '',
+            isPasswordVisible: false,
+            mapImageUrl: '',
+            showform: false,
+        },
+        methods: {
+            submitForm: function () {
+                return firebase.auth().createUserWithEmailAndPassword(this.formData.email, this.formData.password)
+                    .then(() => {
+                        this.sendVerificationEmail();
+                    })
+                    .catch((error) => {
+                        console.error('Registration error:', error);
+                    });
+            },
+            signIn: function () {
+                return firebase.auth().signInWithEmailAndPassword(this.formData.email, this.formData.password);
+            },
+            signOut: function () {
+                firebase.auth().signOut().then(() => {
+                    this.authUser = null;
+                }).catch((error) => {
+                    console.error('Sign-out error:', error);
+                });
+            },
+            sendVerificationEmail: function () {
+                const user = firebase.auth().currentUser;
+
+                user.sendEmailVerification().then(() => {
+                    console.log('Verification email sent');
+                }).catch((error) => {
+                    console.error('Error sending verification email:', error);
+                });
+            },
+            showCountryInfo: function () {
+                getUserIpAddress((userIpAddress) => {
+                    if (userIpAddress) {
+                        const apiUrl = `http://api.ipstack.com/${userIpAddress}?access_key=${accessKey}&output=json`;
+
+                        $.ajax({
+                            url: apiUrl,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: (response) => {
+                                console.log(response);
+
+                                // Check if expected properties exist before accessing them
+                                const languageName = response.location.languages && response.location.languages.length > 0
+                                    ? response.location.languages[0].name
+                                    : 'Language not available';
+                                // Update the data properties through the Vue instance
+                                this.countryLanguage = languageName;
+
+                                // Show the modal
+                                const modal = document.getElementById('userInfoModal');
+                                modal.style.display = 'block';
+                            },
+                            error: (error) => {
+                                console.error('Error fetching IP information:', error);
+                            }
+                        });
+                    } else {
+                        console.error('User IP address not available.');
+                    }
+                });
+            },
+            togglereload() {
+                location.reload();
+            },
+
+            showUserInfo: function () {
+                this.lastLogin = new Date(firebase.auth().currentUser.metadata.lastSignInTime).toLocaleString();
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const { latitude, longitude } = position.coords;
+                            this.userLocation = `${latitude}, ${longitude}`;
+
+                            this.fetchWeatherInfo(this.userLocation);
+                            if (this.userLocation) {
+                                this.reverseGeocode(this.userLocation);
+                                this.fetchStaticMap(this.userLocation);
+                                console.log(this.userLocation)
+                            } else {
+                                console.error('User location not available.');
+                            }
+                        },
+                        (error) => {
+                            console.error('Error getting user location:', error);
+                            this.userLocation = 'Location not available';
+                        }
+                    );
+                } else {
+                    console.error('Geolocation is not supported by this browser.');
+                    this.userLocation = 'Location not available';
+                }
+                this.showform = true;
+            },
+            fetchWeatherInfo: function (location) {
+                const apiKey = '323f5dcbf6574f4498ffb1235b70669d';
+                const apiUrl = `https://api.weatherbit.io/v2.0/current?lat=${location.split(',')[0]}&lon=${location.split(',')[1]}&key=${apiKey}`;
+
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    success: (response) => {
+                        if (response && response.data && response.data.length > 0) {
+                            const weatherData = response.data[0];
+                            this.weatherInfo = `${weatherData.weather.description}, ${weatherData.temp}°C`;
+                        } else {
+                            console.error('Invalid weather response:', response);
+                            this.weatherInfo = 'Weather information not available';
+                        }
+                    },
+                    error: (error) => {
+                        console.error('Error fetching weather information:', error);
+                        this.weatherInfo = 'Failed to fetch weather information';
+                    }
+                });
+            },
+            reverseGeocode: function (location) {
+                const apiKey = '14b62ba8ab0b487096bdba98c729b52c';
+                const lat = location.split(',')[0];
+                const lon = location.split(',')[1].trim();  // Trim whitespace from the longitude
+                const apiUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${apiKey}`;
+
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: (response) => {
+                        if (response && response.features && response.features.length > 0) {
+                            const address = response.features[0].properties.formatted;
+                            this.address = address;
+                        } else {
+                            console.error('Invalid reverse geocoding response:', response);
+                            // Handle the case when the address is not available
+                            this.address = 'Address not available';
+                        }
+                    },
+                    error: (error) => {
+                        console.error('Error fetching reverse geocoding information:', error);
+                        // Handle the case when an error occurs
+                        this.address = 'Failed to fetch address';
+                    }
+                });
+            },
+            fetchStaticMap: function (location) {
+                const apiKey = '14b62ba8ab0b487096bdba98c729b52c'; // Replace with your Geoapify API key
+                const lon = location.split(',')[1].trim();
+                const lat = location.split(',')[0];
+                const mapUrl = `https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=600&height=400&center=lonlat:${lon},${lat}&zoom=14&scaleFactor=2&apiKey=${apiKey}`;
+
+                // Set the map image URL to a data property to display it in the Vue instance
+                this.mapImageUrl = mapUrl;
+            },
+            closeUserInfoModal: function () {
+                this.showform = false;
+            },
+            togglePasswordVisibility: function () {
+                this.isPasswordVisible = !this.isPasswordVisible;
+                const passwordInput = document.getElementById('password');
+                passwordInput.type = this.isPasswordVisible ? 'text' : 'password';
+            },
+            showUserInfoAndCountryInfo: function () {
+                this.showform = true;
+                this.showUserInfo();
+                this.showCountryInfo();
+            },
+        },
+        created: function () {
+            firebase.auth().onAuthStateChanged((user) => {
+                this.authUser = user;
+            }, (error) => {
+                console.log(error);
+            });
+        }
+    });
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            console.log('User signed in:', user);
+        } else {
+            console.log('User signed out');
+        }
+    });
+</script>
+
+</body>
+</html>

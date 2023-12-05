@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TAG (Home)</title>
+    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/radiobuttons.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <script src="js/main.js"></script>
+
+    <style>
+        body {
+            background-image: url("images/car3.jpg"), url("images/giphy.gif");
+            background-size: 100% 40%, 100% 100%;
+            background-repeat: no-repeat, no-repeat;
+            background-position: center top, center center;
+            background-attachment: scroll, fixed;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+<div class="header-container radio-inputs">
+    <label class="radio">
+        <input type="radio" name="radio" checked="">
+        <span class="name" onclick="scrollToSection('1')">Home</span>
+    </label>
+    <label class="radio">
+        <input type="radio" name="radio" checked="">
+        <span class="name" onclick="scrollToSection('2')">Links for Navigation</span>
+    </label>
+
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" onclick="scrollToSection('4')">Subscribe or Contact Us</span>
+    </label>
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" onclick="location.href='signin.html'">SignUp / LogIn</span>
+    </label>
+</div>
+
+<div class="home" id="1">
+    <div class="home-content">
+        <h1 class="tracking-in-contract-bck">TAG</h1>
+        <h3 class="tracking-in-contract-bck">ALL THE INFORMATION IN ONE PLACE</h3>
+        <button class="button_style" onclick="location.href='signin.html'">SIGNUP/LOGIN</button>
+        <button class="button_style" onclick="guest()">EXPLORE AS GUEST</button>
+    </div>
+</div>
+
+<div class="cards" id="2">
+    <br><br>
+    <h2 class="tracking-in-contract-bck">LINKS FOR EASY NAVIGATION</h2>
+    <div class="card brown" onclick="location.href='guidance2.html'">
+        <p class="tip">PERSONALIZED GUIDANCE</p>
+        <p class="second-text">Click here to filter recommendations</p>
+    </div>
+    <div class="card grey" onclick="location.href='guidance2.html'">
+        <p class="tip">EXPLORE ALL OPTIONS</p>
+        <p class="second-text">Click here to explore as guest</p>
+    </div>
+    <div class="card black" onclick="location.href='browse.html'">
+        <p class="tip">OUR WEEKLY RECOMMENDATIONS</p>
+        <p class="second-text">Click here for weekly recommendations</p>
+    </div>
+</div>
+
+<div style="background-image: url('images/car3.jpg');background-size: 100% 100%;" class="social-container" id="4">
+    <div class="social-heading">
+        <br><br><br><br><br><br><br><br><br><br>
+        <h2 class="tracking-in-contract-bck">SUBSCRIBE OR CONTACT US</h2>
+    </div>
+    <div class="social-links tracking-in-contract-bck">
+        <div class="cardsocial" onclick="location.href='contact.html'">CONTACT US</div>
+        <div class="cardsocial" onclick="location.href='subscribe.html'">SUBSCRIBE</div>
+        <div class="cardsocial" onclick="location.href='aboutus.html'">ABOUT US</div>
+        <div class="cardsocial" onclick="location.href='faq.html'">FAQ</div>
+        <br><br><br><br><br><br><br><br><br><br>
+    </div>
+</div>
+
+<div class="footer-container">
+    <p>© 2023 TAG. All rights reserved.</p>
+</div>
+<script src="js/home(signin).js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+.matchCarStyle {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+.car-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.car-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.car-image {
+    margin-top: auto;
+    margin-left: auto;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.car-details {
+    padding: 20px;
+    text-align: left;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.car-details:hover {
+    background-color: #f8f8f8;
+}
+
+.car-details h3 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 18px;
+}
+
+.car-details p {
+    margin: 8px 0;
+    color: #666;
+}
+
+/* Display two items in each row for screens wider than 600px */
+@media (min-width: 600px) {
+    .matchCarStyle {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Display three items in each row for screens wider than 900px */
+@media (min-width: 900px) {
+    .matchCarStyle {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

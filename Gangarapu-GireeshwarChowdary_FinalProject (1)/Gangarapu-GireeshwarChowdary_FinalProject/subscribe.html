@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscribe</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/radiobuttons.css">
+</head>
+<style>
+    body{
+        background-image: url("images/car3.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-attachment: scroll;
+    }
+    .form{
+        transform: translate(-50%, -50%);
+    }
+</style>
+<body>
+<div id="app">
+<div class="header-container radio-inputs">
+    <label class="radio">
+        <input type="radio" name="radio" checked="">
+        <span class="name" v-if="!userLoggedIn" onclick="location.href='home.html'">Home</span>
+        <span class="name" v-else @click="location.href='home(signin).html'">Home</span>
+    </label>
+
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" v-if="!userLoggedIn" onclick="location.href='guidance2.html'">Explore As Guest</span>
+        <span class="name" v-else @click="location.href='guidance(form).html'">Explore</span>
+    </label>
+
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" @click="location.href='faq.html'">FAQ</span>
+    </label>
+
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" v-if="!userLoggedIn" onclick="location.href='signin.html'">SignUp/LogIn </span>
+        <span class="name" v-else @click="signout()">Sign Out</span>
+    </label>
+</div>
+
+
+    <form class="form" @submit.prevent="submitForm">
+        <p class="title">Subscription</p>
+        <p class="message">Subscribe for weekly recommendations.</p>
+        <label>
+            <input class="input" type="text" required v-model="formData.name">
+            <span>Name</span>
+        </label>
+        <label>
+            <input class="input" type="email" required v-model="formData.email">
+            <span>Email</span>
+        </label>
+        <button id="submitBtn" class="submit">Submit</button>
+        <p class="subscribe">Already did? <a href="home.html">Click here for Home</a></p>
+    </form>
+</div>
+
+<script src="js/faq%20and%20subscribe.js"></script>
+</body>
+</html>

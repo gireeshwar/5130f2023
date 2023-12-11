@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-express-mysql",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "firebase": "latest",
+    "firebase-admin": "latest",
+    "mysql": "^2.18.1",
+    "node": "^21.1.0",
+    "query-string": "latest",
+    "vue": "^3.3.9"
+  }
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Information Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/radiobuttons.css">
+</head>
+<style>
+    body{
+        background-image: url("images/car3.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .form{
+        transform: translate(-50%, -40%);
+    }
+</style>
+<body>
+<div class="header-container radio-inputs">
+    <label class="radio">
+        <input type="radio" name="radio" checked="">
+        <span class="name" onclick="location.href='home.html'">Home</span>
+    </label>
+
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" onclick="location.href='guidance2.html'">Explore As Guest</span>
+    </label>
+
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" onclick="location.href='faq.html'">FAQ</span>
+    </label>
+    <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name" onclick="location.href='signin.html'">SignUp / LogIn</span>
+    </label>
+</div>
+<br><br><br><br>
+<div id="app">
+    <h2 class="tracking-in-contract-bck">SIGN IN/SIGN UP</h2>
+    <div v-if="!authUser">
+        <div v-if="showRegisterForm">
+            <form class="form" @submit.prevent="submitForm">
+                <p class="title">Register</p>
+                <p class="message">Signup to save your preferences</p>
+                <label>
+                    <input id="email" class="input" type="email" required v-model="formData.email">
+                    <span>Email</span>
+                </label>
+                <label>
+                    <input id="password" class="input" type="password" required v-model="formData.password">
+                    <span>Password</span>
+                    <input type="checkbox" onclick="myFunction()">
+                    <span>Show Password</span>
+                </label>
+                <button class="submit">Submit</button>
+                <p>Already have an account? </p>
+                <button @click="showRegisterForm = false">Sign In</button>
+            </form>
+        </div>
+        <div v-else>
+            <form class="form" @submit.prevent="signIn">
+                <p class="title">Login</p>
+                <p class="message">Login to your account</p>
+                <label>
+                    <input class="input" type="email" required v-model="formData.email">
+                    <span>Email</span>
+                </label>
+                <label>
+                    <input id='password' class="input" type="password" required v-model="formData.password">
+                    <span>Password</span>
+                    <input type="checkbox" onclick="myFunction()">
+                    <span>Show Password</span>
+                </label>
+
+                <button class="submit">Submit</button>
+                <p>Don't have an account? </p>
+                <button @click="showRegisterForm = true">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add a div for displaying verification status -->
+    <div v-else>
+        <div v-if="authUser.emailVerified">
+            <p class="message">You are logged in as {{authUser.email}}</p>
+            <button class="button" @click="signOut">Sign out</button>
+        </div>
+        <div v-else>
+            <p class="message" v-if="authUser && !authUser.emailVerified">
+                Please verify your email to proceed. Verification link sent to {{authUser.email}}
+            </p>
+            <button class="button" v-if="authUser && !authUser.emailVerified" onclick="sendVerificationEmail">
+                Resend Verification Email
+            </button>
+            <button class="button" @click="reload">Click Here after Verification</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/signin(script).js"></script>
+
+
+</body>
+</html>

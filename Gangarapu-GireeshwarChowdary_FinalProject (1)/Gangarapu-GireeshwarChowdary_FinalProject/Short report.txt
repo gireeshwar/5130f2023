@@ -1,0 +1,29 @@
+Project Report: TAG (Personalized Car Finance Advisor)
+Problem Statement:
+The decision to buy or lease a car is a complex financial choice that can significantly impact an individual's financial well-being. Many people struggle with understanding the nuances of these options and making the right decision based on their unique circumstances. TAG (Personalized Car Finance Advisor) aims to simplify this decision-making process and provide personalized guidance to users.
+
+Goals:
+Simplify Decision-Making: Make the process of choosing between buying and leasing a car straightforward and user-friendly.
+Personalization: Provide tailored recommendations based on individual financial situations and preferences.
+Financial Impact Analysis: Offer clear comparisons of the long-term financial implications of buying or leasing a vehicle.
+Alternative Approaches:
+Static Informational Website: A web-based platform offering information on buying and leasing without personalized guidance.
+Generic Comparison Tools: Web tools that provide general comparisons without considering the user's specific financial situation.
+Community Forums: Online forums where users share experiences, but lacking in personalized guidance.
+Chosen Approach:
+We opted for a dynamic web-based platform that combines an intuitive user interface with personalized algorithms to guide users through the decision-making process. TAG utilizes a series of questions to understand the user's financial requirements, preferences, and the intended vehicle. This information is then processed through algorithms to generate personalized recommendations.
+
+Justification for Chosen Approach:
+User-Friendly: The web-based platform offers a seamless and user-friendly experience, making it accessible to a broad audience without the need for installation.
+
+Personalization: TAG's approach ensures that recommendations are tailored to each user's unique circumstances, providing more relevant and actionable advice.
+
+Efficiency: Automation through algorithms enables quick and efficient processing of user inputs, delivering instant personalized guidance.
+
+Cost-Effective: Compared to human-driven consultation services, TAG is a cost-effective solution, making financial advice accessible to a wider audience.
+
+Clear Comparison: TAG's comparison tool provides a clear side-by-side analysis of buying and leasing options, helping users understand the long-term financial impact of each choice.
+
+In summary, TAG's dynamic web platform offers a balanced combination of user-friendliness, personalization, efficiency, and cost-effectiveness, making it a superior choice for individuals seeking personalized guidance in their car finance decisions. The approach aligns with our goal of simplifying the decision-making process and providing users with valuable insights to make informed choices.
+
+For questions, feedback

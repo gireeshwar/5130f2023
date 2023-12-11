@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/radiobuttons.css">
+    <title>FAQ - TAG</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            background-image: url("images/aesthetic.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-attachment: scroll;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 5px;
+        }
+
+        h1 {
+            margin: 80px 0 20px 0;
+            font-size: 40px;
+        }
+        li{
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+
+        }
+        ul{
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+
+        }
+
+        .question {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .answer {
+            margin: 10px 0 10px 0;
+            font-size: 16px;
+
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="header-container radio-inputs">
+        <label class="radio">
+            <input type="radio" name="radio" checked="">
+            <span class="name" v-if="!userLoggedIn" onclick="location.href='home.html'">Home</span>
+            <span class="name" v-else onclick="location.href='home(signin).html'">Home</span>
+        </label>
+
+        <label class="radio">
+            <input type="radio" name="radio">
+            <span class="name" v-if="!userLoggedIn" onclick="location.href='guidance2.html'">Explore As Guest</span>
+            <span class="name" v-else onclick="location.href='guidance(form).html'">Explore</span>
+        </label>
+
+        <label class="radio">
+            <input type="radio" name="radio">
+            <span class="name" onclick="location.href='faq.html'">FAQ</span>
+        </label>
+
+        <label class="radio">
+            <input type="radio" name="radio">
+            <span class="name" v-if="!userLoggedIn" onclick="location.href='signin.html'">SignUp/LogIn </span>
+            <span class="name" v-else @click="signout()">Sign Out</span>
+        </label>
+    </div>
+
+<header>
+    <h1>FAQ - Frequently Asked Questions</h1>
+</header>
+
+<div class="container">
+
+    <div class="faq-item">
+        <div class="question">What is TAG Personalized guidance?</div>
+        <div class="answer">The decision to buy or lease a car is a complex financial choice that can significantly impact an individual's financial well-being. Many people struggle with understanding the nuances of these options and making the right decision based on their unique circumstances. TAG (Personalized Car Finance Advisor) aims to simplify this decision-making process and provide personalized guidance to users.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="question">How do I fill the form?</div>
+        <div class="answer">
+            <ul>
+                As of now, the database collection contains limited data. The form is designed to retrieve information based on the available data, So to test its functionality, please use the following details:
+                <li>1. **Pickup and Dropoff Dates:** Choose any preferred dates, ensuring the dropoff date is after the pickup date.</li>
+                <li>2. **Expected Mileage:** User expected mileage</li>
+                <li>3. **Type of Car:** Select "Sedan/Suv/Convertible"</li>
+                <li>4. **Select Car Size:** Choose any option.</li>
+                <li>5. **Transmission:** Choose "Automatic" or "Manual"</li>
+                <li>6. **Features:** Tick any features you prefer.</li>
+                <li>7. **Preferred Company:** Indicate your preferred company or no preference</li>
+                <li>8. **Expected Price Range:** (Not set up yet)</li>
+                <li>9. **Services:** Tick any services you prefer.</li>
+                <li>10. **Credit Score:** Select any credit score option of your choice.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="question">What is the maximum lease term?</div>
+        <div class="answer">The maximum lease term is 5 years.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="question">What is the minimum down payment?</div>
+        <div class="answer">The minimum down payment is $500.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="question">What is the maximum down payment?</div>
+        <div class="answer">It will be calculated based on the options filled in the form.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="question">What is the maximum monthly payment?</div>
+        <div class="answer">It will be calculated based on the options filled in the form.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="question">What are the requirements to lease/loan a car?</div>
+        <div class="answer">The requirements to lease/loan a car are as follows:
+            <ul>
+                <li>1. Must be 18 years or older</li>
+                <li>2. Must have a valid driver's license</li>
+                <li>3. Must have a valid credit card</li>
+                <li>4. Must have a valid social security number</li>
+                <li>5. Must have a valid bank account</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</div>
+<script src="js/faq%20and%20subscribe.js"></script>
+
+</body>
+
+</html>
